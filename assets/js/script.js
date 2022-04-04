@@ -69,7 +69,7 @@ startGame.addEventListener("click", function() {
 
             if (startingTime <= 0) {
                 clearInterval(timerInterval);
-                allDone ();
+                endGame();
                 timeLeft.textContent = "Out of Time!"
             }
         }, 1000);
@@ -101,10 +101,10 @@ function compareAnswer(e) {
     var selection = e.target;
     
     if (selection.matches("li")) {
-        var createDiv = docuement.createElement("div");
+        var createDiv = document.createElement("div");
         createDiv.setAttribute("id", "createDiv");
         if (selection.textContent == questions[questionNumber].answer) {
-            score++;
+            currentScore++;
             createDiv.textContent = questions[questionNumber].answer + " is correct!";
         } else {
             startingTime = startingTime - incorrectPenalty;
@@ -114,12 +114,80 @@ function compareAnswer(e) {
     questionNumber++;
 
     if (questionNumber >= questions.length) {
-        allDone();
+        endGame();
         createDiv.textContent = "Game Over! You correctly answered " + currentScore + "/" + questions.length + " questions";
     } else {
         render(questionNumber);
     }
     quizQuestion.appendChild(createDiv);
+}
+
+function endGame() {
+    quizQuestion.innerHTML = "";
+    timeLeft.innerHTML = "";
+
+    var createHeading = document.createElement("h1");
+    createHeading.setAttribute("id", "create-heading");
+    createHeading.textContent = "Quiz Complete!";
+
+    quizQuestion.appendChild(createHeading);
+
+    var createParagraph = document.createElement("p");
+    createParagraph.setAttribute("id", "create-paragraph");
+
+    quizQuestion.appendChild(createParagraph);
+
+    if (startingTime >= 0) {
+        var timeRemaining = startingTime;
+        var createParagraph2 = document.createElement("p");
+        clearInterval(timerInterval);
+        createParagraph.textContent = "Final Score: " + timeRemaining;
+
+        quizQuestion.appendChild(createParagraph2);
+    }
+
+    var createLabel = document.createElement("label");
+    createLabel.setAttribute("id", "create-label");
+    createLabel.textContent = "Enter your initials: ";
+
+    quizQuestion.appendChild(createLabel);
+
+    var createInput = document.createElement("input");
+    createInput.setAttribute("id", "initials");
+    createInput.setAttribute("type", "text");
+    createInput.textContent = "";
+
+    var createSubmitButton = document.createElement("button");
+    createSubmitButton.setAttribute("id", "submit-button");
+    createSubmitButton.setAttribute("type", "submit");
+    createSubmitButton.textContent = "Submit";
+
+    quizQuestion.appendChild(createSubmitButton);
+
+    createSubmitButton.addEventListener("click", function() {
+        var initials = createInput.value;
+        if(initials === null) {
+            console.log("No initials entered");
+        } else {
+            var endScore = {
+                initials: initials,
+                score: timeRemaining
+            }
+            console.log(endScore);
+            var allScores = localStorage.getItem("allScores");
+            if(allScores === null) {
+                allscores = [];
+            } else {
+                allScores = JSON.parse(allScores);
+            }
+            allScores.push(endScore);
+            var newAllScores = JSON.stringify(allScores);
+            localStorage.setItem("allscores", newAllScores);
+
+            window.location.replace("./highscores.html");
+        }
+    });
+
 }
 
 
