@@ -184,7 +184,7 @@ function endGame() {
             }
             allScores.push(endScore);
             var newAllScores = JSON.stringify(allScores);
-            localStorage.setItem("allscores", newAllScores);
+            localStorage.setItem("allScores", newAllScores);
 
             window.location.replace("./highscores.html");
         }
