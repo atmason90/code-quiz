@@ -57,7 +57,7 @@ var timerInterval = 0;
 var incorrectPenalty = 10;
 
 // create ul elements
-var createList = document.createElement("ul");
+var createList = document.createElement("ol");
 
 
 // start timer on click and show timer on screen
@@ -157,6 +157,8 @@ function endGame() {
     createInput.setAttribute("type", "text");
     createInput.textContent = "";
 
+    quizQuestion.appendChild(createInput);
+
     var createSubmitButton = document.createElement("button");
     createSubmitButton.setAttribute("id", "submit-button");
     createSubmitButton.setAttribute("type", "submit");
@@ -176,7 +178,7 @@ function endGame() {
             console.log(endScore);
             var allScores = localStorage.getItem("allScores");
             if(allScores === null) {
-                allscores = [];
+                allScores = [];
             } else {
                 allScores = JSON.parse(allScores);
             }
