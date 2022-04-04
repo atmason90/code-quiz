@@ -51,12 +51,75 @@ var card = document.querySelector("#card");
 var startingTime = 61;
 
 // Interval declared globally for use in functions
-var interval = 0;
+var timerInterval = 0;
 
 // penalty for wrong answer
 var incorrectPenalty = 10;
 
 // create ul elements
 var createList = document.createElement("ul");
+
+
+// start timer on click and show timer on screen
+startGame.addEventListener("click", function() {
+    if (timerInterval === 0) {
+        timerInterval = setInterval(function() {
+            startingTime--;
+            timeLeft.textContent = "Seconds Left: " + startingTime;
+
+            if (startingTime <= 0) {
+                clearInterval(timerInterval);
+                allDone ();
+                timeLeft.textContent = "Out of Time!"
+            }
+        }, 1000);
+    }
+    render(questionNumber);
+});
+
+// render question and choices to the card
+function render(questionNumber) {
+    questionNumber.innerHTML = "";
+    createList.innerHTML = "";
+    
+    for (var i = 0; i < questions.length; i++) {
+        var displayQuestion = questions[questionNumber].question;
+        var displayChoices = questions[questionNumber].choices;
+        quizQuestion.textContent = displayQuestion;
+    }
+    // use for each to display choices
+    displayChoices.forEach(function (newEl) {
+        var li = document.createElement("li");
+        li.textContent = newEl;
+        quizQuestion.appendChild(createList);
+        createList.appendChild(li);
+        li.addEventListener("click", (compareAnswer));
+    })
+}
+
+function compareAnswer(e) {
+    var selection = e.target;
+    
+    if (selection.matches("li")) {
+        var createDiv = docuement.createElement("div");
+        createDiv.setAttribute("id", "createDiv");
+        if (selection.textContent == questions[questionNumber].answer) {
+            score++;
+            createDiv.textContent = questions[questionNumber].answer + " is correct!";
+        } else {
+            startingTime = startingTime - incorrectPenalty;
+            createDiv.textContent = "That is incorrect, the answer is: " + questions[questionNumber].answer;
+        }
+    }
+    questionNumber++;
+
+    if (questionNumber >= questions.length) {
+        allDone();
+        createDiv.textContent = "Game Over! You correctly answered " + currentScore + "/" + questions.length + " questions";
+    } else {
+        render(questionNumber);
+    }
+    quizQuestion.appendChild(createDiv);
+}
 
 
