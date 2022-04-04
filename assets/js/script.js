@@ -1,4 +1,4 @@
-// create a variable that holds all questions, choices, and correct answers
+// create a variable that holds all questions, choices, and correct answers:
 var questions = [
     {
         question: "Javascript code is run on the _________.",
@@ -26,3 +26,37 @@ var questions = [
         answer: "They are the same value and type"
     },
 ];
+
+// create other needed variables:
+
+// start score at 0
+var currentScore = 0; 
+
+// starting index of question array
+var questionNumber = 0;
+
+// time left on timer
+var timeLeft = document.querySelector("#time-left");
+
+// button to start game and timer
+var startGame = document.querySelector("#start-button");
+
+// where each question will be displayed
+var quizQuestion = document.querySelector("#quiz-question");
+
+// area where questions, choices, and start button will be held
+var card = document.querySelector("#card");
+
+// amount of time at beginning of game
+var startingTime = 61;
+
+// Interval declared globally for use in functions
+var interval = 0;
+
+// penalty for wrong answer
+var incorrectPenalty = 10;
+
+// create ul elements
+var createList = document.createElement("ul");
+
+
