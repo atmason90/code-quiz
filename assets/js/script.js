@@ -97,6 +97,10 @@ function render(questionNumber) {
     })
 }
 
+// function to compare the selected choice to check for correctness
+// if correct display message that it is correct. if wrong display message that it is wrong
+// move onto the next question
+// if last question, end the game and display message telling player how many they got correct
 function compareAnswer(e) {
     var selection = e.target;
     
@@ -122,21 +126,26 @@ function compareAnswer(e) {
     quizQuestion.appendChild(createDiv);
 }
 
+// end game function 
 function endGame() {
+    // clear content from quizQuestion and timeLeft
     quizQuestion.innerHTML = "";
     timeLeft.innerHTML = "";
 
+    // create Heading that says Quiz Complete and append to page
     var createHeading = document.createElement("h1");
     createHeading.setAttribute("id", "create-heading");
     createHeading.textContent = "Quiz Complete!";
 
     quizQuestion.appendChild(createHeading);
 
+    // create paragraph to display final score
     var createParagraph = document.createElement("p");
     createParagraph.setAttribute("id", "create-paragraph");
 
     quizQuestion.appendChild(createParagraph);
 
+    // set score equal to time remaining on clock
     if (startingTime >= 0) {
         var timeRemaining = startingTime;
         var createParagraph2 = document.createElement("p");
@@ -144,14 +153,19 @@ function endGame() {
         createParagraph.textContent = "Final Score: " + timeRemaining;
 
         quizQuestion.appendChild(createParagraph2);
+    // if no time left - score is 0
+    } else {
+        createParagraph.textContent = "Final Score: " + 0;
     }
 
+    // create label for player to enter initials and append to page
     var createLabel = document.createElement("label");
     createLabel.setAttribute("id", "create-label");
     createLabel.textContent = "Enter your initials: ";
 
     quizQuestion.appendChild(createLabel);
 
+    // create input for user to enter initials and append to page
     var createInput = document.createElement("input");
     createInput.setAttribute("id", "initials");
     createInput.setAttribute("type", "text");
@@ -159,6 +173,7 @@ function endGame() {
 
     quizQuestion.appendChild(createInput);
 
+    // create submit button and append to page
     var createSubmitButton = document.createElement("button");
     createSubmitButton.setAttribute("id", "submit-button");
     createSubmitButton.setAttribute("type", "submit");
@@ -166,26 +181,32 @@ function endGame() {
 
     quizQuestion.appendChild(createSubmitButton);
 
+    // add event listener to submit button so that it responds to click.
     createSubmitButton.addEventListener("click", function() {
         var initials = createInput.value;
         if(initials === null) {
-            console.log("No initials entered");
+            console.log("No initials entered"); 
         } else {
-            var endScore = {
+                var endScore = {
                 initials: initials,
                 score: timeRemaining
             }
             console.log(endScore);
+            // get all previous scores from local storage
             var allScores = localStorage.getItem("allScores");
             if(allScores === null) {
                 allScores = [];
             } else {
+                // user JSON.parse to de-stringify scores when pulling out of local storage
                 allScores = JSON.parse(allScores);
             }
+            // push end score of current game to all scores in local storage
             allScores.push(endScore);
+            // use JSON.stringify to add newAllScores to local storage
             var newAllScores = JSON.stringify(allScores);
             localStorage.setItem("allScores", newAllScores);
 
+            // navigate to leaderboard page
             window.location.replace("./highscores.html");
         }
     });
