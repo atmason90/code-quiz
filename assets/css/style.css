@@ -3,6 +3,10 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+    background-color: rgb(243, 234, 210);
+}
+
 #card {
     display: flex;
     justify-content: center;
