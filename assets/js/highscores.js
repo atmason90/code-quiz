@@ -27,7 +27,7 @@ if (allScores !== null) {
     }
 }
 
-// add event listener that listens for click and navigates back to the quiz, where user can retake
+// add event listener that listens for click and navigates back to the quiz, where user can retake quiz
 backButton.addEventListener("click", function() {
     window.location.replace("./index.html");
 });
