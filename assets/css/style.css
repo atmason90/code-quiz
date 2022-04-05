@@ -47,6 +47,10 @@ a {
     font-weight: bold;
 }
 
+#quiz-question {
+    font-size: larger;
+}
+
 li:hover {
     cursor: pointer;
     background-color: rgb(243, 234, 210);
