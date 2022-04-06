@@ -118,8 +118,8 @@ function compareAnswer(e) {
     questionNumber++;
 
     if (questionNumber >= questions.length) {
-        endGame();
         createDiv.textContent = "Game Over! You correctly answered " + currentScore + "/" + questions.length + " questions";
+        endGame();
     } else {
         render(questionNumber);
     }
@@ -131,6 +131,7 @@ function endGame() {
     // clear content from quizQuestion and timeLeft
     quizQuestion.innerHTML = "";
     timeLeft.innerHTML = "";
+    var timeRemaining = 0;
 
     // create Heading that says Quiz Complete and append to page
     var createHeading = document.createElement("h1");
@@ -147,16 +148,11 @@ function endGame() {
 
     // set score equal to time remaining on clock
     if (startingTime >= 0) {
-        var timeRemaining = startingTime;
-        var createParagraph2 = document.createElement("p");
+        timeRemaining = startingTime;
         clearInterval(timerInterval);
-        createParagraph.textContent = "Final Score: " + timeRemaining;
-
-        quizQuestion.appendChild(createParagraph2);
-    // if no time left - score is 0
-    } else {
-        createParagraph.textContent = "Final Score: " + 0;
     }
+
+    createParagraph.textContent = "Final Score: " + timeRemaining;
 
     // create label for player to enter initials and append to page
     var createLabel = document.createElement("label");
@@ -191,7 +187,7 @@ function endGame() {
                 initials: initials,
                 score: timeRemaining
             }
-            console.log(endScore);
+            
             // get all previous scores from local storage
             var allScores = localStorage.getItem("allScores");
             if(allScores === null) {
@@ -202,6 +198,7 @@ function endGame() {
             }
             // push end score of current game to all scores in local storage
             allScores.push(endScore);
+            
             // use JSON.stringify to add newAllScores to local storage
             var newAllScores = JSON.stringify(allScores);
             localStorage.setItem("allScores", newAllScores);
